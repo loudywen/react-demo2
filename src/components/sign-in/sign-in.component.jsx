@@ -3,10 +3,12 @@ import "./sign-in.styles.scss";
 import FormInput from "../form-input/form-input.component";
 import CustomButton from "../custom-button/custom-button.component";
 import { auth, signInWithGoogle } from "../../firebase/firebase.utils";
+import { withRouter } from "react-router-dom";
 
 class SignIn extends Component {
   constructor(props) {
     super(props);
+
     this.state = {
       email: "",
       password: ""
@@ -16,18 +18,24 @@ class SignIn extends Component {
   handleSubmit = async event => {
     event.preventDefault();
     const { email, password } = this.state;
-
     try {
       await auth.signInWithEmailAndPassword(email, password);
       this.setState({ email: "", password: "" });
+      this.redirect();
     } catch (error) {
       console.log(error);
+      alert(error.message);
     }
   };
 
   handleChange = event => {
     const { value, name } = event.target;
     this.setState({ [name]: value });
+  };
+
+  redirect = () => {
+    const { history, linkUrl, match } = this.props;
+    history.push("/");
   };
 
   render() {
@@ -67,4 +75,4 @@ class SignIn extends Component {
   }
 }
 
-export default SignIn;
+export default withRouter(SignIn);
