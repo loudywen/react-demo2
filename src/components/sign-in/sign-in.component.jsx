@@ -21,7 +21,6 @@ class SignIn extends Component {
     try {
       await auth.signInWithEmailAndPassword(email, password);
       this.setState({ email: "", password: "" });
-      this.redirect();
     } catch (error) {
       console.log(error);
       alert(error.message);
@@ -33,10 +32,7 @@ class SignIn extends Component {
     this.setState({ [name]: value });
   };
 
-  redirect = () => {
-    const { history, linkUrl, match } = this.props;
-    history.push("/");
-  };
+
 
   render() {
     return (
